@@ -2,17 +2,29 @@ spring:
   application:
     name: payroll-app
   datasource:
-    url: jdbc:mysql://localhost:3306/testdb
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: pass
+    url: jdbc:postgresql://localhost:5432/testdb
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 5844
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
       mode: always
 
+
+logging:
+  level:
+    root: INFO
+    com.capgemini.payroll_app.service: DEBUG
+    com.capgemini.payroll_app.controller: WARN
+    com.capgemini.payroll_app.entity : WARN
+  file:
+    name: logs/application.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
