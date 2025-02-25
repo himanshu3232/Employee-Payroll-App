@@ -10,8 +10,8 @@ public class EmployeeDtoMapper {
 
     public static Employee mapToEmployee(EmployeeDto employeeDto){
         Employee employee =  new Employee();
-        employee.setName(employeeDto.name());
-        employee.setSalary(employeeDto.salary());
+        employee.setName(employeeDto.getName());
+        employee.setSalary(employeeDto.getSalary());
         return employee;
     }
 }
