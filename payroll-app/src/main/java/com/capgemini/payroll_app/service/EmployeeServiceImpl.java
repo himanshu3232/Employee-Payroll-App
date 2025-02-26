@@ -6,12 +6,14 @@ import com.capgemini.payroll_app.entity.Employee;
 import com.capgemini.payroll_app.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 @Slf4j
+@Profile({"dev", "prod"})
 public class EmployeeServiceImpl implements IEmployeeService {
 
     private EmployeeRepository employeeRepository;
