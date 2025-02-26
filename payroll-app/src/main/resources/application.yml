@@ -4,10 +4,10 @@ spring:
   application:
     name: payroll-app
   datasource:
-    url: jdbc:postgresql://localhost:5432/testdb
+    url: ${DB_URL}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: 5844
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
