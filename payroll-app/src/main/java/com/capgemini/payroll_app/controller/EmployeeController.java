@@ -5,6 +5,7 @@ import com.capgemini.payroll_app.entity.Employee;
 import com.capgemini.payroll_app.exception.InvalidParameterException;
 import com.capgemini.payroll_app.service.EmployeeServiceImpl;
 import jakarta.validation.Valid;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+@NoArgsConstructor
 @RestController
 @RequestMapping("/employee")
 @Slf4j
@@ -25,8 +27,6 @@ public class EmployeeController {
         log.trace("EmployeeServiceImpl bean initialized");
         this.employeeService = employeeService;
     }
-
-    public EmployeeController(){}
 
     @PostMapping("/post")
     public ResponseEntity<EmployeeDto> addEmployee
@@ -61,7 +61,7 @@ public class EmployeeController {
         }
         return new ResponseEntity<>(employeeService.updateEmployee(employee), HttpStatus.ACCEPTED);
     }
-    
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteEmployee(@PathVariable Long id){
         log.debug("Delete request hit to delete employee with id : {}", id);
