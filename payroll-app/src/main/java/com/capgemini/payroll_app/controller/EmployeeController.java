@@ -2,11 +2,15 @@ package com.capgemini.payroll_app.controller;
 
 import com.capgemini.payroll_app.dto.EmployeeDto;
 import com.capgemini.payroll_app.entity.Employee;
+import com.capgemini.payroll_app.exception.InvalidParameterException;
 import com.capgemini.payroll_app.service.EmployeeServiceImpl;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,8 +29,16 @@ public class EmployeeController {
     public EmployeeController(){}
 
     @PostMapping("/post")
-    public ResponseEntity<EmployeeDto> addEmployee(@RequestBody Employee employee){
+    public ResponseEntity<EmployeeDto> addEmployee
+            (@RequestBody @Valid Employee employee
+                    , BindingResult bindingResult){
         log.debug("Post request hit to post employee : {}", employee);
+        if(bindingResult.hasErrors()){
+            for(ObjectError error : bindingResult.getAllErrors()){
+                log.error(error.getDefaultMessage());
+            }
+            throw new InvalidParameterException("Employee validation failed!");
+        }
         return new ResponseEntity<>(employeeService.addEmployee(employee), HttpStatus.CREATED);
     }
 
@@ -37,10 +49,19 @@ public class EmployeeController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<EmployeeDto> updateEmployee(@RequestBody Employee employee){
+    public ResponseEntity<EmployeeDto> updateEmployee
+            (@RequestBody @Valid Employee employee
+                    , BindingResult bindingResult){
         log.debug("Put request hit to update employee");
+        if(bindingResult.hasErrors()){
+            for(ObjectError error : bindingResult.getAllErrors()){
+                log.error(error.getDefaultMessage());
+            }
+            throw new InvalidParameterException("Employee validation failed!");
+        }
         return new ResponseEntity<>(employeeService.updateEmployee(employee), HttpStatus.ACCEPTED);
     }
+    
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> deleteEmployee(@PathVariable Long id){
         log.debug("Delete request hit to delete employee with id : {}", id);
